@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ระบบบันทึกข้อมูลการชำระเงิน</title>
+  <style>
+    body {
+      font-family: "Prompt", sans-serif;
+      background-color: #fafafa;
+      margin: 40px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>ฟอร์มบันทึกข้อมูลลูกค้า</h2>
+
+  <form id="dataForm">
+    <label>คิว</label>
+    <input type="text" id="คิว" required>
+
+    <label>เฟซบุ๊ค</label>
+    <input type="text" id="เฟซบุ๊ค" required>
+
+    <label>ประเภท</label>
+    <input type="text" id="ประเภท">
+
+    <label>ตัวละคร</label>
+    <input type="text" id="ตัวละคร">
+
+    <label>รายละเอียด</label>
+    <textarea id="รายละเอียด"></textarea>
+
+    <label>วันที่ส่ง</label>
+    <input type="date" id="วันที่ส่ง">
+
+    <label>วันที่ใช้</label>
+    <input type="date" id="วันที่ใช้">
+
+    <label>จำนวนเงินที่ชำระแล้ว</label>
+    <input type="number" id="จำนวนเงินที่ชำระแล้ว">
+
+    <label>จำนวนเงินที่ต้องชำระ</label>
+    <input type="number" id="จำนวนเงินที่ต้องชำระ">
+
+    <label>บัตรประชาชน</label>
+    <input type="text" id="บัตรประชาชน">
+
+    <button type="submit">บันทึกข้อมูล</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwED8gOvpDUcfPea-SfM26jzFZlkpQQPNnEbotYvhnuk9O-ReD8ckU9Whq2ci4_Ddlj/exec";
+
+    document.getElementById("dataForm").addEventListener("submit", e => {
+      e.preventDefault();
+const data = {
+        คิว: document.getElementById("คิว").value,
+        เฟซบุ๊ค: document.getElementById("เฟซบุ๊ค").value,
+        ประเภท: document.getElementById("ประเภท").value,
+        ตัวละคร: document.getElementById("ตัวละคร").value,
+        รายละเอียด: document.getElementById("รายละเอียด").value,
+        วันที่ส่ง: document.getElementById("วันที่ส่ง").value,
+        วันที่ใช้: document.getElementById("วันที่ใช้").value,
+        จำนวนเงินที่ชำระแล้ว: document.getElementById("จำนวนเงินที่ชำระแล้ว").value,
+        จำนวนเงินที่ต้องชำระ: document.getElementById("จำนวนเงินที่ต้องชำระ").value,
+        บัตรประชาชน: document.getElementById("บัตรประชาชน").value
+      };
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById("result").textContent = response.message;
+        document.getElementById("dataForm").reset();
+      })
+      .catch(error => {
+        document.getElementById("result").textContent = "เกิดข้อผิดพลาด: " + error.message;
+      });
+    });
+  </script>
+
+</body>
+</html>
