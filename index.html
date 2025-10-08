@@ -1,118 +1,251 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8">
-  <title>ระบบบันทึกข้อมูลการชำระเงิน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบฟอร์มเพิ่มข้อมูลลูกค้า</title>
+
+  <!-- ฟอนต์ -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+
   <style>
     body {
-      font-family: "Prompt", sans-serif;
-      background-color: #fafafa;
-      margin: 40px;
+      font-family: 'Fredoka', sans-serif;
+      background-color: #FFF8F3;
+      color: #2945A8;
+      margin: 0;
+      padding: 40px;
     }
+
+    h1 {
+      text-align: center;
+      color: #2945A8;
+      margin-bottom: 30px;
+    }
+
     form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 600px;
+      background-color: #FCF1DD;
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 900px;
+      margin: auto;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
     }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
       margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
     }
+
+    label {
+      flex: 1 1 150px;
+      color: #2945A8;
+      font-weight: 500;
+    }
+
+    input,
+    select,
+    textarea {
+      flex: 2 1 250px;
+      padding: 10px;
+      border: 2px solid #FFCC7A;
+      border-radius: 10px;
+      font-size: 15px;
+      background-color: #fff;
+      color: #2945A8;
+    }
+
+    textarea {
+      resize: none;
+    }
+
     button {
-      background-color: #4CAF50;
+      display: block;
+      width: 200px;
+      margin: 20px auto 0;
+      background-color: #F78660;
       color: white;
-      padding: 10px 15px;
+      font-size: 18px;
+      font-weight: 600;
       border: none;
-      border-radius: 5px;
+      border-radius: 15px;
+      padding: 10px;
       cursor: pointer;
+      transition: background 0.3s;
     }
+
     button:hover {
-      background-color: #45a049;
+      background-color: #FF9A73;
     }
-    #result {
-      margin-top: 10px;
-      font-weight: bold;
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 25px 40px;
+      border-radius: 20px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      color: #2945A8;
+      font-size: 20px;
     }
+
+    .popup.show {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .popup {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 25px 40px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  color: #2945A8;
+  font-size: 20px;
+  text-align: center;
+}
+
+.popup.show {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
   </style>
 </head>
+
 <body>
 
-  <h2>ฟอร์มบันทึกข้อมูลลูกค้า</h2>
+  <h1>แบบฟอร์มบันทึกข้อมูลลูกค้า 🎀</h1>
 
   <form id="dataForm">
-    <label>คิว</label>
-    <input type="text" id="คิว" required>
+    <div class="form-row">
+      <label>เฟซบุ๊ค:</label>
+      <input type="text" id="facebook" required>
+    </div>
 
-    <label>เฟซบุ๊ค</label>
-    <input type="text" id="เฟซบุ๊ค" required>
+    <div class="form-row">
+      <label>ประเภท:</label>
+      <input type="text" id="type" required>
+    </div>
 
-    <label>ประเภท</label>
-    <input type="text" id="ประเภท">
+    <div class="form-row">
+      <label>ตัวละคร:</label>
+      <select id="character" required>
+        <option value="">-- เลือกตัวละคร --</option>
+        <option value="วาเนสซา">วาเนสซา</option>
+        <option value="อายา">อายา</option>
+        <option value="เรย์">เรย์</option>
+        <option value="อื่นๆ">อื่นๆ</option>
+      </select>
+    </div>
 
-    <label>ตัวละคร</label>
-    <input type="text" id="ตัวละคร">
+    <div class="form-row">
+      <label>รายละเอียด:</label>
+      <textarea id="detail" rows="3"></textarea>
+    </div>
 
-    <label>รายละเอียด</label>
-    <textarea id="รายละเอียด"></textarea>
+    <div class="form-row">
+      <label>วันที่ส่ง:</label>
+      <input type="date" id="sendDate">
+    </div>
 
-    <label>วันที่ส่ง</label>
-    <input type="date" id="วันที่ส่ง">
+    <div class="form-row">
+      <label>วันที่ใช้:</label>
+      <input type="date" id="useDate">
+    </div>
 
-    <label>วันที่ใช้</label>
-    <input type="date" id="วันที่ใช้">
+    <div class="form-row">
+      <label>จำนวนเงินที่ชำระแล้ว:</label>
+      <input type="number" id="paid">
+    </div>
 
-    <label>จำนวนเงินที่ชำระแล้ว</label>
-    <input type="number" id="จำนวนเงินที่ชำระแล้ว">
+    <div class="form-row">
+      <label>จำนวนเงินที่ต้องชำระ:</label>
+      <input type="number" id="total">
+    </div>
 
-    <label>จำนวนเงินที่ต้องชำระ</label>
-    <input type="number" id="จำนวนเงินที่ต้องชำระ">
+    <div class="form-row">
+      <label>บัตรประชาชน:</label>
+      <input type="text" id="idcard">
+    </div>
 
-    <label>บัตรประชาชน</label>
-    <input type="text" id="บัตรประชาชน">
-
-    <button type="submit">บันทึกข้อมูล</button>
+    <button type="submit">บันทึกข้อมูล 🍩</button>
   </form>
 
-  <div id="result"></div>
+  <div class="popup" id="popupMessage">✅ บันทึกข้อมูลสำเร็จ!</div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwED8gOvpDUcfPea-SfM26jzFZlkpQQPNnEbotYvhnuk9O-ReD8ckU9Whq2ci4_Ddlj/exec";
+    const scriptURL = "https://cosplay-proxy.onrender.com";
+    const form = document.getElementById("dataForm");
+    const popup = document.getElementById("popupMessage");
 
-    document.getElementById("dataForm").addEventListener("submit", e => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-const data = {
-        คิว: document.getElementById("คิว").value,
-        เฟซบุ๊ค: document.getElementById("เฟซบุ๊ค").value,
-        ประเภท: document.getElementById("ประเภท").value,
-        ตัวละคร: document.getElementById("ตัวละคร").value,
-        รายละเอียด: document.getElementById("รายละเอียด").value,
-        วันที่ส่ง: document.getElementById("วันที่ส่ง").value,
-        วันที่ใช้: document.getElementById("วันที่ใช้").value,
-        จำนวนเงินที่ชำระแล้ว: document.getElementById("จำนวนเงินที่ชำระแล้ว").value,
-        จำนวนเงินที่ต้องชำระ: document.getElementById("จำนวนเงินที่ต้องชำระ").value,
-        บัตรประชาชน: document.getElementById("บัตรประชาชน").value
+
+      // 📦 เก็บข้อมูลจากฟอร์ม
+      const data = {
+        เฟซบุ๊ค: document.getElementById("facebook").value,
+        ประเภท: document.getElementById("type").value,
+        ตัวละคร: document.getElementById("character").value,
+        รายละเอียด: document.getElementById("detail").value,
+        วันที่ส่ง: document.getElementById("sendDate").value,
+        วันที่ใช้: document.getElementById("useDate").value,
+        จำนวนเงินที่ชำระแล้ว: document.getElementById("paid").value,
+        จำนวนเงินที่ต้องชำระ: document.getElementById("total").value,
+        บัตรประชาชน: document.getElementById("idcard").value
       };
 
-      fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(data)
-      })
-      .then(res => res.json())
-      .then(response => {
-        document.getElementById("result").textContent = response.message;
-        document.getElementById("dataForm").reset();
-      })
-      .catch(error => {
-        document.getElementById("result").textContent = "เกิดข้อผิดพลาด: " + error.message;
-      });
+      try {
+        // 🔥 ส่งข้อมูลไปที่ Proxy (Render)
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        // ✅ รับผลลัพธ์จาก Proxy
+        const result = await res.json();
+
+        if (result.status === "success") {
+          popup.textContent = `✅ ${result.message}`;
+          popup.classList.add("show");
+
+          setTimeout(() => {
+            popup.classList.remove("show");
+          }, 2000);
+
+          form.reset();
+        } else {
+          alert("⚠️ เกิดข้อผิดพลาด: " + result.message);
+        }
+      } catch (err) {
+        alert("❌ ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้: " + err.message);
+      }
     });
   </script>
-
 </body>
+
 </html>
